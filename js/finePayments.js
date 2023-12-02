@@ -32,7 +32,32 @@ alert "Номер не співпадає" або "Сума не співпад�
 Якщо валідація проходить успішно, то виконати оплату,
  тобто вам потрібно видалити обєкт з DB
  */
+ let executePayment = ()  =>{
+    delete DB.finesData;
+    alert("Оплата успішно виконана!");
+  }
+  
 buttonSubmit.addEventListener('click',payFine);
-function payFine(){
-
-}
+let payFine = () => {
+    const passportRegex = /^[А-ЩЬЮЯҐЄIІЇЁ]{2}\d{6}$/;
+    if (!passportRegex.test(passport.value)) {
+      alert("Не вірний паспортний номер");
+      return;
+    }
+    const creditCardRegex = /^\d{16}$/;
+    if (!creditCardRegex.test(creditCardNumber.value)) {
+      alert("Не вірна кредитна картка");
+      return;
+    }
+    const cvvRegex = /^\d{3}$/;
+    if (!cvvRegex.test(cvv.value)) {
+      alert("Не вірний CVV");
+      return;
+    }
+    if (fineNumber.value !== DB.fineNumber || parseFloat(amount.value) !== DB.amount) {
+      alert("Номер або сума не співпадають");
+      return;
+    }
+    executePayment();
+  }
+  
